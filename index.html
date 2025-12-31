@@ -1,246 +1,534 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BZLZHH 的网站 - BZLZHH's website</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>BZLZHH | C++ Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --bg-color: #fdfbf7;
+            --text-main: #2d3436;
+            --text-secondary: #636e72;
+            --accent-blue: #74b9ff;
+            --accent-hover: #0984e3;
+            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-border: rgba(255, 255, 255, 0.8);
+            --shadow-light: rgba(116, 185, 255, 0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #e6f7ff, #b3e0ff);
-            color: #2c3e50;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            font-family: 'Quicksand', sans-serif;
-            position: relative;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
-        
-        .container {
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            padding: 2rem;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(100, 181, 246, 0.2);
-            backdrop-filter: blur(5px);
-            animation: container-appear 1.5s ease-out;
-        }
-        
-        .main-text {
-            font-size: 3.5rem;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 1.5rem;
-            color: #2980b9;
-            position: relative;
-            animation: text-focus-in 1.5s ease-out;
-        }
-        
-        .sub-text {
-            font-size: 2.2rem;
-            color: #3498db;
-            font-weight: 400;
-            animation: text-focus-in 2s ease-out;
-        }
-        
-        .wave {
-            position: absolute;
-            bottom: 0;
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 100px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%233498db" fill-opacity="0.2" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,213.3C1248,235,1344,213,1392,202.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-            background-size: cover;
-            animation: wave-animation 15s linear infinite;
-            z-index: 1;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
         }
-        
-        .wave-2 {
-            bottom: 10px;
-            height: 120px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%233498db" fill-opacity="0.1" d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,224C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-            animation: wave-animation-2 12s linear infinite;
+
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        
-        .bubbles {
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dcdde1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .social-links a {
+            color: var(--text-main);
+            margin-left: 1.5rem;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-main) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .hero .motto {
+            font-style: italic;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-top: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.7s forwards;
+        }
+
+        .scroll-indicator {
             position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--accent-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50%;
+            height: 4px;
+            background: var(--accent-blue);
+            border-radius: 2px;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .skill-tag {
+            background: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            box-shadow: 0 4px 15px var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--shadow-light);
+            color: var(--accent-blue);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.1s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            z-index: 1;
-            overflow: hidden;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
         }
-        
-        .bubble {
-            position: absolute;
-            bottom: -100px;
-            width: 40px;
-            height: 40px;
-            background: rgba(100, 181, 246, 0.2);
-            border-radius: 50%;
-            animation: rise 15s infinite ease-in;
+
+        .card:hover::before {
+            left: 100%;
         }
-        
-        .bubble:nth-child(1) {
-            width: 40px;
-            height: 40px;
-            left: 10%;
-            animation-duration: 12s;
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            transform: translateZ(20px);
         }
-        
-        .bubble:nth-child(2) {
-            width: 20px;
-            height: 20px;
-            left: 20%;
-            animation-duration: 15s;
-            animation-delay: 1s;
+
+        .card .badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            background: rgba(116, 185, 255, 0.2);
+            color: var(--accent-hover);
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            transform: translateZ(20px);
         }
-        
-        .bubble:nth-child(3) {
-            width: 50px;
-            height: 50px;
-            left: 35%;
-            animation-duration: 18s;
-            animation-delay: 2s;
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            transform: translateZ(20px);
         }
-        
-        .bubble:nth-child(4) {
-            width: 30px;
-            height: 30px;
-            left: 50%;
-            animation-duration: 13s;
-            animation-delay: 0.5s;
+
+        .card-links {
+            transform: translateZ(30px);
         }
-        
-        .bubble:nth-child(5) {
-            width: 25px;
-            height: 25px;
-            left: 70%;
-            animation-duration: 16s;
-            animation-delay: 3s;
+
+        .btn {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
         }
-        
-        .bubble:nth-child(6) {
-            width: 45px;
-            height: 45px;
-            left: 85%;
-            animation-duration: 14s;
-            animation-delay: 1.5s;
+
+        .btn:hover {
+            color: var(--accent-blue);
         }
-        
-        @keyframes container-appear {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
-        
-        @keyframes text-focus-in {
-            0% {
-                opacity: 0;
-                filter: blur(12px);
-            }
-            100% {
-                opacity: 1;
-                filter: blur(0);
-            }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes wave-animation {
-            0% {
-                background-position-x: 0;
-            }
-            100% {
-                background-position-x: 1440px;
-            }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes wave-animation-2 {
-            0% {
-                background-position-x: 1440px;
-            }
-            100% {
-                background-position-x: 0;
-            }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
         }
-        
-        @keyframes rise {
-            0% {
-                bottom: -100px;
-                transform: translateX(0) scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translateX(20px) scale(1.2);
-                opacity: 0.8;
-            }
-            100% {
-                bottom: 1080px;
-                transform: translateX(0) scale(1);
-                opacity: 0;
-            }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         @media (max-width: 768px) {
-            .main-text { font-size: 2.5rem; }
-            .sub-text { font-size: 1.8rem; }
-            .container { margin: 0 1rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .skills-grid { justify-content: center; }
         }
     </style>
 </head>
 <body>
-    <div class="bubbles">
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-    </div>
-    
-    <div class="wave"></div>
-    <div class="wave wave-2"></div>
-    
+
+    <canvas id="bg-canvas"></canvas>
+
     <div class="container">
-        <div class="main-text">这是 BZLZHH 的网站</div>
-        <div class="sub-text">This is BZLZHH's website</div>
+        <nav>
+            <a href="#" class="logo">BZLZHH</a>
+            <div class="social-links">
+                <a href="https://github.com/BZLZHH" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://space.bilibili.com/477062582" target="_blank" title="Bilibili"><i class="fab fa-bilibili"></i></a>
+                <a href="mailto:admin@bzlzhh.top" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </nav>
+
+        <header class="hero">
+            <h1>BZLZHH</h1>
+            <p class="subtitle">Hobbyist C++ Developer</p>
+            <div class="motto">"Pure at heart. Free in code."</div>
+            
+            <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </header>
+
+        <section id="about" class="reveal">
+            <h2 class="section-title">About Me</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+                A hobbyist software developer who prefers C++, focused on FOSS.
+            </p>
+            
+            <div class="skills-grid">
+                <div class="skill-tag"><i class="fas fa-code"></i> C / C++</div>
+                <div class="skill-tag"><i class="fas fa-layer-group"></i> OpenGL / ES</div>
+                <div class="skill-tag"><i class="fas fa-cubes"></i> Graphics</div>
+                <div class="skill-tag"><i class="fas fa-laptop-code"></i> Cross-platform Dev</div>
+                <div class="skill-tag"><i class="fab fa-android"></i> Android</div>
+                <div class="skill-tag"><i class="fab fa-linux"></i> GNU/Linux</div>
+            </div>
+        </section>
+
+        <section id="projects" class="reveal">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">
+                
+                <div class="card js-tilt" data-tilt>
+                    <span class="badge">Co-owner & Co-maintainer</span>
+                    <h3>MobileGL</h3>
+                    <p>The most important project for me now. Aimed to provide a complete OpenGL implementation with a state management layer and multiple backends.</p>
+                    <div class="card-links">
+                        <a href="https://github.com/MobileGL-Dev/MobileGL" target="_blank" class="btn">
+                            <i class="fab fa-github"></i> View Repository
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card js-tilt" data-tilt>
+                    <span class="badge">Owner</span>
+                    <h3>NG-GL4ES</h3>
+                    <p>Krypton Wrapper. Based on gl4es, with running Minecraft: Java Edition in mind.</p>
+                    <div class="card-links">
+                        <a href="https://github.com/BZLZHH/NG-GL4ES" target="_blank" class="btn">
+                            <i class="fab fa-github"></i> View Repository
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card js-tilt" data-tilt>
+                    <span class="badge">Co-owner</span>
+                    <h3>MobileGlues</h3>
+                    <p>An OpenGL ES wrapper providing incomplete OpenGL implementation, with running Minecraft: Java Edition in mind.</p>
+                    <div class="card-links">
+                        <a href="https://github.com/MobileGL-Dev/MobileGlues-release" target="_blank" class="btn">
+                            <i class="fab fa-github"></i> View Repository
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card js-tilt" data-tilt>
+                    <span class="badge">...</span>
+                    <h3>Other Works</h3>
+                    <p>Personal projects, experiments, and forks of other repositories.</p>
+                    <div class="card-links">
+                        <a href="https://github.com/BZLZHH?tab=repositories" target="_blank" class="btn">
+                            <i class="fab fa-github"></i> View on GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reveal">
+            <h2 class="section-title">Organizations</h2>
+            <div style="background: white; padding: 2rem; border-radius: 15px; border-left: 5px solid var(--accent-blue); box-shadow: 0 5px 20px var(--shadow-light);">
+                <h3><i class="fas fa-users" style="color: var(--accent-blue); margin-right: 10px;"></i> MobileGL-Dev</h3>
+                <p style="margin-top: 0.5rem; color: var(--text-secondary);">Co-owner & Developer</p>
+                <a href="https://github.com/MobileGL-Dev" target="_blank" class="btn" style="margin-top: 1rem;">Visit Org <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i></a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 BZLZHH</p>
+            <p>Pure at heart. Free in code.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">admin@bzlzhh.top</p>
+        </footer>
     </div>
-    
+
     <script>
-        function createBubbles() {
-            const bubblesContainer = document.querySelector('.bubbles');
-            for (let i = 0; i < 10; i++) {
-                const bubble = document.createElement('div');
-                bubble.classList.add('bubble');
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        const cards = document.querySelectorAll('.js-tilt');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
                 
-                const size = Math.random() * 30 + 10;
-                bubble.style.width = `${size}px`;
-                bubble.style.height = `${size}px`;
-                bubble.style.left = `${Math.random() * 100}%`;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
                 
-                bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
-                bubble.style.animationDelay = `${Math.random() * 5}s`;
-                
-                bubblesContainer.appendChild(bubble);
+                const rotateX = ((y - centerY) / centerY) * -5;
+                const rotateY = ((x - centerX) / centerX) * 5;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        });
+
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(116, 185, 255, 0.4)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
-        
-        document.addEventListener('DOMContentLoaded', createBubbles);
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor(window.innerWidth / 15);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(116, 185, 255, ${0.15 - distance/800})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+
     </script>
 </body>
 </html>
