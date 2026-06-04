@@ -7,309 +7,7 @@
     <link rel="icon" href="assets/favicon.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --bg-color: #fdfbf7;
-            --text-main: #2d3436;
-            --text-secondary: #636e72;
-            --accent-blue: #74b9ff;
-            --accent-hover: #0984e3;
-            --card-bg: rgba(255, 255, 255, 0.65);
-            --card-border: rgba(255, 255, 255, 0.8);
-            --shadow-light: rgba(116, 185, 255, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.6;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #dcdde1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-blue);
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        nav {
-            padding: 2rem 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            opacity: 0;
-            animation: fadeInDown 1s ease forwards;
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-main);
-            text-decoration: none;
-        }
-
-        .social-links a {
-            color: var(--text-main);
-            margin-left: 1.5rem;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--accent-blue);
-        }
-
-        .hero {
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--text-main) 0%, var(--accent-blue) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.3s forwards;
-        }
-
-        .hero p.subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-family: 'JetBrains Mono', monospace;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.5s forwards;
-        }
-
-        .hero .motto {
-            font-style: italic;
-            color: var(--accent-blue);
-            font-weight: 600;
-            margin-top: 1rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.7s forwards;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-            color: var(--accent-blue);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        section {
-            padding: 5rem 0;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 3rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 50%;
-            height: 4px;
-            background: var(--accent-blue);
-            border-radius: 2px;
-        }
-
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .skill-tag {
-            background: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-main);
-            box-shadow: 0 4px 15px var(--shadow-light);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-
-        .skill-tag:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px var(--shadow-light);
-            color: var(--accent-blue);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.1s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
-        }
-
-        .card:hover::before {
-            left: 100%;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-            transform: translateZ(20px);
-        }
-
-        .card .badge {
-            display: inline-block;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            background: rgba(116, 185, 255, 0.2);
-            color: var(--accent-hover);
-            margin-bottom: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            transform: translateZ(20px);
-        }
-
-        .card p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            transform: translateZ(20px);
-        }
-
-        .card-links {
-            transform: translateZ(30px);
-        }
-
-        .btn {
-            text-decoration: none;
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.3s;
-        }
-
-        .btn:hover {
-            color: var(--accent-blue);
-        }
-
-        footer {
-            padding: 3rem 0;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
-            40% {transform: translateX(-50%) translateY(-10px);}
-            60% {transform: translateX(-50%) translateY(-5px);}
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .skills-grid { justify-content: center; }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -329,7 +27,7 @@
             <h1>BZLZHH</h1>
             <p class="subtitle">Hobbyist Software Developer</p>
             <div class="motto">"Pure at heart. Free in code."</div>
-            
+
             <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
                 <i class="fas fa-chevron-down"></i>
             </div>
@@ -340,7 +38,7 @@
             <p style="margin-bottom: 2rem; color: var(--text-secondary);">
                 A hobbyist software developer who prefers C++, focused on FLOSS.
             </p>
-            
+
             <div class="skills-grid">
                 <div class="skill-tag"><i class="fas fa-code"></i> C / C++</div>
                 <div class="skill-tag"><i class="fas fa-layer-group"></i> OpenGL / ES</div>
@@ -354,8 +52,8 @@
         <section id="projects" class="reveal">
             <h2 class="section-title">Projects</h2>
             <div class="projects-grid">
-                
-                <div class="card js-tilt" data-tilt>
+
+                <div class="card js-tilt">
                     <span class="badge">Co-owner & Co-maintainer</span>
                     <h3>MobileGL</h3>
                     <p>The most important project for me now. Aimed to provide a complete OpenGL implementation with a state management layer and multiple backends.</p>
@@ -366,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="card js-tilt" data-tilt>
+                <div class="card js-tilt">
                     <span class="badge">Owner</span>
                     <h3>NG-GL4ES</h3>
                     <p>Krypton Wrapper. Based on gl4es, with running Minecraft: Java Edition in mind.</p>
@@ -377,7 +75,7 @@
                     </div>
                 </div>
 
-                <div class="card js-tilt" data-tilt>
+                <div class="card js-tilt">
                     <span class="badge">Co-owner</span>
                     <h3>MobileGlues</h3>
                     <p>An OpenGL ES wrapper providing incomplete OpenGL implementation, with running Minecraft: Java Edition in mind.</p>
@@ -388,7 +86,7 @@
                     </div>
                 </div>
 
-                <div class="card js-tilt" data-tilt>
+                <div class="card js-tilt">
                     <span class="badge">...</span>
                     <h3>Other Works</h3>
                     <p>Personal projects, experiments, and forks of other repositories.</p>
@@ -417,119 +115,6 @@
         </footer>
     </div>
 
-    <script>
-        const observerOptions = {
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
-
-        const cards = document.querySelectorAll('.js-tilt');
-        
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -5;
-                const rotateY = ((x - centerX) / centerX) * 5;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-            });
-        });
-
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2 + 1;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-
-            draw() {
-                ctx.fillStyle = 'rgba(116, 185, 255, 0.4)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            const particleCount = Math.floor(window.innerWidth / 15);
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-
-                for (let j = i; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 120) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(116, 185, 255, ${0.15 - distance/800})`;
-                        ctx.lineWidth = 1;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animate);
-        }
-
-        initParticles();
-        animate();
-
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
