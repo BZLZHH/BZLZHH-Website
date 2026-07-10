@@ -7,7 +7,7 @@
     <link rel="icon" href="assets/favicon.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
 </head>
 <body>
 
@@ -16,10 +16,15 @@
     <div class="container">
         <nav>
             <a href="#" class="logo">BZLZHH</a>
-            <div class="social-links">
-                <a href="https://github.com/BZLZHH" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://space.bilibili.com/477062582" target="_blank" title="Bilibili"><i class="fab fa-bilibili"></i></a>
-                <a href="mailto:admin@bzlzhh.top" title="Email"><i class="fas fa-envelope"></i></a>
+            <div class="nav-right">
+                <button class="lang-switch" data-locale-switcher onclick="I18n.toggleLocale()" aria-label="Switch language">
+                    EN
+                </button>
+                <div class="social-links">
+                    <a href="https://github.com/BZLZHH" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://space.bilibili.com/477062582" target="_blank" title="Bilibili"><i class="fab fa-bilibili"></i></a>
+                    <a href="mailto:admin@bzlzhh.top" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
             </div>
         </nav>
 
@@ -34,12 +39,13 @@
         </header>
 
         <section id="about" class="reveal">
-            <h2 class="section-title">About Me</h2>
-            <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+            <h2 class="section-title" data-i18n="about.title">About Me</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-secondary);" data-i18n="about.desc">
                 A hobbyist software developer who prefers C++, focused on FLOSS.
             </p>
 
             <div class="skills-grid">
+                <!-- ⚠ These skill tags MUST stay in English — do NOT add data-i18n -->
                 <div class="skill-tag"><i class="fas fa-code"></i> C / C++</div>
                 <div class="skill-tag"><i class="fas fa-layer-group"></i> OpenGL / ES</div>
                 <div class="skill-tag"><i class="fas fa-cubes"></i> Graphics</div>
@@ -50,49 +56,49 @@
         </section>
 
         <section id="projects" class="reveal">
-            <h2 class="section-title">Projects</h2>
+            <h2 class="section-title" data-i18n="projects.title">Projects</h2>
             <div class="projects-grid">
 
                 <div class="card js-tilt">
-                    <span class="badge">Co-owner & Co-maintainer</span>
+                    <span class="badge" data-i18n="projects.mobilegl.badge">Co-owner & Co-maintainer</span>
                     <h3>MobileGL</h3>
-                    <p>The most important project for me now. Aimed to provide a complete OpenGL implementation with a state management layer and multiple backends.</p>
+                    <p data-i18n="projects.mobilegl.desc">The most important project for me now. Aimed to provide a complete OpenGL implementation with a state management layer and multiple backends.</p>
                     <div class="card-links">
                         <a href="https://github.com/MobileGL-Dev/MobileGL" target="_blank" class="btn">
-                            <i class="fab fa-github"></i> View Repository
+                            <i class="fab fa-github"></i> <span data-i18n="projects.mobilegl.link">View Repository</span>
                         </a>
                     </div>
                 </div>
 
                 <div class="card js-tilt">
-                    <span class="badge">Owner</span>
+                    <span class="badge" data-i18n="projects.nggl4es.badge">Owner</span>
                     <h3>NG-GL4ES</h3>
-                    <p>Krypton Wrapper. Based on gl4es, with running Minecraft: Java Edition in mind.</p>
+                    <p data-i18n="projects.nggl4es.desc">Krypton Wrapper. Based on gl4es, with running Minecraft: Java Edition in mind.</p>
                     <div class="card-links">
                         <a href="https://github.com/BZLZHH/NG-GL4ES" target="_blank" class="btn">
-                            <i class="fab fa-github"></i> View Repository
+                            <i class="fab fa-github"></i> <span data-i18n="projects.nggl4es.link">View Repository</span>
                         </a>
                     </div>
                 </div>
 
                 <div class="card js-tilt">
-                    <span class="badge">Co-owner</span>
+                    <span class="badge" data-i18n="projects.mobileglues.badge">Co-owner</span>
                     <h3>MobileGlues</h3>
-                    <p>An OpenGL ES wrapper providing incomplete OpenGL implementation, with running Minecraft: Java Edition in mind.</p>
+                    <p data-i18n="projects.mobileglues.desc">An OpenGL ES wrapper providing incomplete OpenGL implementation, with running Minecraft: Java Edition in mind.</p>
                     <div class="card-links">
                         <a href="https://github.com/MobileGL-Dev/MobileGlues-release" target="_blank" class="btn">
-                            <i class="fab fa-github"></i> View Repository
+                            <i class="fab fa-github"></i> <span data-i18n="projects.mobileglues.link">View Repository</span>
                         </a>
                     </div>
                 </div>
 
                 <div class="card js-tilt">
-                    <span class="badge">...</span>
-                    <h3>Other Works</h3>
-                    <p>Personal projects, experiments, and forks of other repositories.</p>
+                    <span class="badge" data-i18n="projects.other.badge">...</span>
+                    <h3 data-i18n="projects.other.title">Other Works</h3>
+                    <p data-i18n="projects.other.desc">Personal projects, experiments, and forks of other repositories.</p>
                     <div class="card-links">
                         <a href="https://github.com/BZLZHH?tab=repositories" target="_blank" class="btn">
-                            <i class="fab fa-github"></i> View on GitHub
+                            <i class="fab fa-github"></i> <span data-i18n="projects.other.link">View on GitHub</span>
                         </a>
                     </div>
                 </div>
@@ -100,21 +106,25 @@
         </section>
 
         <section class="reveal">
-            <h2 class="section-title">Organizations</h2>
+            <h2 class="section-title" data-i18n="org.title">Organizations</h2>
             <div style="background: white; padding: 2rem; border-radius: 15px; border-left: 5px solid var(--accent-blue); box-shadow: 0 5px 20px var(--shadow-light);">
                 <h3><i class="fas fa-users" style="color: var(--accent-blue); margin-right: 10px;"></i> MobileGL-Dev</h3>
-                <p style="margin-top: 0.5rem; color: var(--text-secondary);">Co-owner & Developer</p>
-                <a href="https://github.com/MobileGL-Dev" target="_blank" class="btn" style="margin-top: 1rem;">Visit Org <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i></a>
+                <p style="margin-top: 0.5rem; color: var(--text-secondary);" data-i18n="org.role">Co-owner & Developer</p>
+                <a href="https://github.com/MobileGL-Dev" target="_blank" class="btn" style="margin-top: 1rem;">
+                    <span data-i18n="org.link">Visit Org</span> <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
+                </a>
             </div>
         </section>
 
         <footer>
             <p>&copy; 2025-2026 BZLZHH</p>
+            <!-- ⚠ This motto MUST stay in English — do NOT add data-i18n -->
             <p>Pure at heart. Free in code.</p>
             <p style="margin-top: 0.5rem; opacity: 0.7;">admin@bzlzhh.top</p>
         </footer>
     </div>
 
-    <script src="js/main.js"></script>
+    <script src="js/i18n.js?v=2"></script>
+    <script src="js/main.js?v=2"></script>
 </body>
 </html>

@@ -62,6 +62,41 @@ nav {
     animation: fadeInDown 1s ease forwards;
 }
 
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* ── Language switcher ────────────────────────────────────────── */
+
+.lang-switch {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-main);
+    background: transparent;
+    border: 1.5px solid var(--text-secondary);
+    border-radius: 6px;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    opacity: 0.7;
+}
+
+.lang-switch:hover {
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .lang-switch {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
 .logo {
     font-weight: 700;
     font-size: 1.5rem;
